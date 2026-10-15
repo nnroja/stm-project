@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Login System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 350px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #125aa0;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #otpSection {
+            display: none;
+        }
+
+        #generatedOTP {
+            margin-top: 10px;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>OTP Login System</h2>
+
+    <!-- Login Section -->
+    <div id="loginSection">
+
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter username">
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+
+        <button id="loginButton" onclick="login()">Login</button>
+
+        <div id="loginMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- OTP Section -->
+    <div id="otpSection">
+
+        <label for="otp">Enter OTP</label>
+        <input type="text" id="otp" placeholder="Enter 6-digit OTP">
+
+        <button id="verifyButton" onclick="verifyOTP()">
+            Verify OTP
+        </button>
+
+        <div id="generatedOTP"></div>
+
+        <div id="otpMessage" class="message"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+    const validUsername = "admin";
+    const validPassword = "12345";
+    let generatedOTP = "";
+    function login() {
+
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        let loginMessage = document.getElementById("loginMessage");
+
+        if (username === "" || password === "") {
+            loginMessage.style.color = "red";
+            loginMessage.innerHTML = "Username and password are required.";
+            return;
+        }
+        if (username !== validUsername) {
+            loginMessage.style.color = "red";
+            loginMessage.innerHTML = "Invalid username.";
+            return;
+        }
+
+        if (password !== validPassword) {
+            loginMessage.style.color = "red";
+            loginMessage.innerHTML = "Invalid password.";
+            return;
+        }
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+        document.getElementById("loginSection").style.display = "none";
+
+        document.getElementById("otpSection").style.display = "block";
+
+        document.getElementById("generatedOTP").innerHTML =
+            "Generated OTP: " + generatedOTP;
+    }
+
+
+    function verifyOTP() {
+
+        let enteredOTP = document.getElementById("otp").value;
+
+        let otpMessage = document.getElementById("otpMessage");
+
+        if (enteredOTP === "") {
+            otpMessage.style.color = "red";
+            otpMessage.innerHTML = "OTP is required.";
+            return;
+        }
+
+        if (enteredOTP === generatedOTP) {
+            otpMessage.style.color = "green";
+            otpMessage.innerHTML = "OTP verified successfully. Login successful!";
+        } else {
+            otpMessage.style.color = "red";
+            otpMessage.innerHTML = "Invalid OTP.";
+        }
+    }
+
+</script>
+
+</body>
+</html>
